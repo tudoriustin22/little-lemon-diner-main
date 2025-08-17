@@ -8,18 +8,17 @@ This project demonstrates advanced iOS development concepts including MVVM archi
 
 ## Screenshots and Demo
 
-![Menu Items View](VideosDemo/MenuItemsView.png)
+<img src="VideosDemo/MenuItemsView.png" alt="Menu Items View" width="400"/>
 *Main menu items display with grid layout*
 
-![Menu Items Option View](VideosDemo/MenuItemsOptionView.png)
+<img src="VideosDemo/MenuItemsOptionView.png" alt="Menu Items Option View" width="400"/>
 *Menu filtering and sorting options*
 
-![Menu Item Details View](VideosDemo/MenuItemDetailsView.png)
+<img src="VideosDemo/MenuItemDetailsView.png" alt="Menu Item Details View" width="400"/>
 *Detailed view of individual menu items*
 
-[Completed App Demo Video](VideosDemo/CompletedApp.mov)
+[Completed App Demo Video](VideosDemo/CompletedApp.mov)  
 *Full application demonstration*
-
 ## Architecture
 
 This project follows the **MVVM (Model-View-ViewModel)** architectural pattern:
