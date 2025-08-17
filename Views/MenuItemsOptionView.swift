@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Foundation
 
 struct MenuItemsOptionView: View {
     @Environment(\.dismiss) private var dismiss   // gives us dismiss() action
@@ -33,9 +34,21 @@ struct MenuItemsOptionView: View {
                 }
                 
                 Section("SORT BY") {
-                    Text("Most popular")
-                    Text("Price $ - $$$")
-                    Text("A-Z")
+                    ForEach(SortItems.allCases, id: \.self) { sort in
+                        HStack {
+                            Text(sort.rawValue)
+                                .fontWeight(viewModel.selectedSort == sort ? .bold : .regular)
+                            if viewModel.selectedSort == sort {
+                                Spacer()
+                                Image(systemName: "checkmark")
+                                    .foregroundColor(.accentColor)
+                            }
+                        }
+                        .contentShape(Rectangle())
+                        .onTapGesture {
+                            viewModel.selectedSort = sort
+                        }
+                    }
                 }
             }
             .toolbar {

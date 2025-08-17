@@ -46,11 +46,22 @@ class MenuViewViewModel: ObservableObject {
     
     var allCategories: [MenuCategory] = MenuCategory.allCases
     @Published var selectedCategory: MenuCategory = .food
+    @Published var selectedSort: SortItems = .mostPopular
+    
     var displayedItems: [MenuItem] {
+        let items: [MenuItem]
         switch selectedCategory {
-        case .food: return foodItems
-        case .drinks: return drinkItems
-        case .desserts: return dessertItems
+        case .food: items = foodItems
+        case .drinks: items = drinkItems
+        case .desserts: items = dessertItems
+        }
+        switch selectedSort {
+        case .mostPopular:
+            return items.sorted { $0.orderCount > $1.orderCount }
+        case .price:
+            return items.sorted { $0.price < $1.price }
+        case .az:
+            return items.sorted { $0.title.localizedCaseInsensitiveCompare($1.title) == .orderedAscending }
         }
     }
 }
