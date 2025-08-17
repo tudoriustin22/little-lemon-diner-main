@@ -9,14 +9,27 @@ import SwiftUI
 
 struct MenuItemsOptionView: View {
     @Environment(\.dismiss) private var dismiss   // gives us dismiss() action
+    @ObservedObject var viewModel: MenuViewViewModel // using the ViewModel
     
     var body: some View {
         NavigationStack {
             List {
                 Section("SELECTED CATEGORIES") {
-                    Text("Food")
-                    Text("Drinks")
-                    Text("Desserts")
+                    ForEach(viewModel.allCategories, id: \.self) { category in
+                        HStack {
+                            Text(category.rawValue)
+                                .fontWeight(viewModel.selectedCategory == category ? .bold : .regular)
+                            if viewModel.selectedCategory == category {
+                                Spacer()
+                                Image(systemName: "checkmark")
+                                    .foregroundColor(.accentColor)
+                            }
+                        }
+                        .contentShape(Rectangle())
+                        .onTapGesture {
+                            viewModel.selectedCategory = category
+                        }
+                    }
                 }
                 
                 Section("SORT BY") {
@@ -39,5 +52,5 @@ struct MenuItemsOptionView: View {
 }
 
 #Preview {
-    MenuItemsOptionView()
+    MenuItemsOptionView(viewModel: MenuViewViewModel())
 }

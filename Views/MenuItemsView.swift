@@ -9,9 +9,9 @@ import SwiftUI
 
 struct MenuItemsView: View {
     @StateObject private var viewModel = MenuViewViewModel()
-    let columns = Array(repeating: GridItem(.flexible(minimum: 1), spacing: 1), count: 3)
-    
     @State private var showMenu = false // variable ot control the state of menu
+    @State private var selectedItem: MenuItem? = nil
+    let columns = Array(repeating: GridItem(.flexible(minimum: 1), spacing: 1), count: 3)
     
     var body: some View {
         VStack {
@@ -40,68 +40,34 @@ struct MenuItemsView: View {
             
             // Sheet that toggles the OptionView
             .sheet(isPresented: $showMenu) {
-                MenuItemsOptionView()
+                MenuItemsOptionView(viewModel: viewModel)
                 
             }
             
             // Page Content
             ScrollView {
-                Text("Food")
+                Text(viewModel.selectedCategory.rawValue)
                     .font(.system(size: 25))
                     .padding(.leading)
                     .frame(maxWidth: .infinity, alignment: .topLeading)
                 
-            // Foods Section
                 LazyVGrid(columns: columns, spacing: 20) {
-                    ForEach(viewModel.foodItems, id: \.self) { item in
+                    ForEach(viewModel.displayedItems, id: \.self) { item in
                         VStack {
                             Rectangle()
                                 .frame(width: 110, height: 80)
                             Text(item.title)
                         }
-                    }
-                }
-                .padding(.horizontal, 5)
-                .padding(.bottom, 30)
-                
-            // Drinks Section
-                Text("Drinks")
-                    .font(.system(size: 25))
-                    .padding(.leading)
-                    .frame(maxWidth: .infinity, alignment: .topLeading)
-                
-                
-                LazyVGrid(columns: columns, spacing: 20) {
-                    ForEach(viewModel.drinkItems, id: \.self) { item in
-                        VStack {
-                            Rectangle()
-                                .frame(width: 110, height: 80)
-                            Text(item.title)
+                        .onTapGesture {
+                            selectedItem = item
                         }
                     }
                 }
                 .padding(.horizontal, 5)
                 .padding(.bottom, 30)
-                
-                
-                // Desserts Section
-                    Text("Desserts")
-                        .font(.system(size: 25))
-                        .padding(.leading)
-                        .frame(maxWidth: .infinity, alignment: .topLeading)
-                    
-                    
-                    LazyVGrid(columns: columns, spacing: 20) {
-                        ForEach(viewModel.dessertItems, id: \.self) { item in
-                            VStack {
-                                Rectangle()
-                                    .frame(width: 110, height: 80)
-                                Text(item.title)
-                            }
-                        }
-                    }
-                    .padding(.horizontal, 5)
-                    .padding(.bottom, 30)
+            }
+            .sheet(item: $selectedItem) { item in
+                MenuItemDetailsView(item: item)
             }
         }
         

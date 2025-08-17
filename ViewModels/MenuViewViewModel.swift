@@ -43,4 +43,14 @@ class MenuViewViewModel: ObservableObject {
         MenuItem(title: "Dessert 3", ingredient: [], price: 12, menuCategory: .desserts, orderCount: 4),
         MenuItem(title: "Dessert 4", ingredient: [], price: 17, menuCategory: .desserts, orderCount: 9),
     ]
+    
+    var allCategories: [MenuCategory] = MenuCategory.allCases
+    @Published var selectedCategory: MenuCategory = .food
+    var displayedItems: [MenuItem] {
+        switch selectedCategory {
+        case .food: return foodItems
+        case .drinks: return drinkItems
+        case .desserts: return dessertItems
+        }
+    }
 }
